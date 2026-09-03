@@ -198,7 +198,7 @@ section.room.active{display:block}
 .empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line2)}
 
 /* ---------- Viewer ---------- */
-dialog.viewer{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh}
+dialog.viewer{border:0;padding:0;margin:0;background:transparent;position:fixed;inset:0;max-width:none;max-height:none;width:100vw;height:100vh;height:100dvh}
 dialog.viewer::backdrop{background:rgba(30,6,12,.85)}
 .viewer-inner{width:100%;height:100%;display:grid;grid-template-columns:1fr 380px;background:var(--cream);color:var(--ink)}
 .viewer-stage{position:relative;overflow:auto;background:#24060C;display:flex;align-items:flex-start;justify-content:center;padding:28px}
@@ -270,6 +270,55 @@ footer .links a:hover{text-decoration:underline}
   footer .links{text-align:left}
   .topbar .clock{display:none}
   .hero h1{font-size:clamp(40px,11vw,64px)}
+}
+@media (max-width:600px){
+  .wrap{padding-left:20px;padding-right:20px}
+  .topbar .wrap{padding:12px 20px;gap:12px}
+  .brand{gap:12px}
+  .brand img{width:40px;height:40px}
+  .brand .sep,.brand .t2{display:none}
+  .brand .t1{font-size:14px;line-height:1.25}
+  .topbar .site{font-size:10px;letter-spacing:.14em;white-space:nowrap}
+  .hero .wrap{padding-top:44px}
+  .hero-grid{gap:28px}
+  .hero h1{margin-top:22px}
+  .hero .lede{margin-top:28px;font-size:16px}
+  .hero-actions .btn{width:100%}
+  .status{padding:22px 20px}
+  .status h2{font-size:26px}
+  .countdown b{font-size:26px}
+  .daystrip{display:flex;flex-direction:column;margin-top:40px;overflow:visible}
+  .day{border-right:0;border-bottom:1px solid var(--line-on-maroon);padding:16px 18px}
+  .day:last-child{border-bottom:0}
+  .marquee{padding:12px 0}
+  section.room{padding:48px 0 64px}
+  .room-head{gap:22px;margin-bottom:30px}
+  .room-head h2{font-size:36px}
+  .room-head p{font-size:15.5px}
+  .stats{max-width:none}
+  .stats b{font-size:32px}
+  .stats div{padding:16px 18px}
+  .dayblock h3{font-size:26px;gap:8px}
+  .dayblock .dh{flex-direction:column;align-items:flex-start;gap:4px}
+  .rows li{padding:14px 0}
+  .rows li.now{margin:0;padding:14px 10px}
+  .speaker{padding:20px}
+  .speaker .topic{font-size:23px}
+  .join{padding:24px 20px}
+  .join h3{font-size:26px}
+  .order h3{font-size:28px}
+  .toolbar{gap:8px}
+  .search{max-width:none;margin-left:0}
+  .posters{grid-template-columns:repeat(2,1fr);gap:14px}
+  .card .title{font-size:16px}
+  .card .meta{padding:12px 12px 14px}
+  .panel{padding:22px 20px}
+  .panel h3{font-size:26px}
+  .criteria{grid-template-columns:repeat(2,1fr)}
+  .viewer-stage{padding:14px}
+  .viewer-side{padding:18px 18px}
+  .viewer-side h3{font-size:21px}
+  footer{padding:36px 0 44px}
 }
 </style>
 
@@ -383,7 +432,7 @@ footer .links a:hover{text-decoration:underline}
       <div class="head"><span class="caps maroon">Third speaker</span><span class="time">1:00 – 2:00 PM</span></div>
       <div class="portrait"><span class="caps">Speaker portrait</span></div>
       <div class="topic">Applications of AI in Research</div>
-      <div class="name">Engr. Raymund Adrian R. Rafael</div>
+      <div class="name">Raymund Adrian R. Rafael</div>
       <div class="role">Plenary lecture</div>
     </div>
   </div>
@@ -610,7 +659,7 @@ const LECTURE = [
   {s:"10:30", e:"10:45", item:"Break"},
   {s:"10:45", e:"11:45", item:"Statistical Methods and Analysis", who:"Dr. Xandro Nieto · Second speaker"},
   {s:"11:45", e:"13:00", item:"Lunch break", who:"Afternoon sign-in opens 12:45"},
-  {s:"13:00", e:"14:00", item:"Applications of AI in Research", who:"Engr. Raymund Adrian R. Rafael · Third speaker"},
+  {s:"13:00", e:"14:00", item:"Applications of AI in Research", who:"Raymund Adrian R. Rafael · Third speaker"},
   {s:"14:00", e:"14:05", item:"Closing Remarks", who:"EVP Marco Duque"},
   {s:"14:05", e:"15:00", item:"Afternoon attendance closes · hall remains open", who:"Complete your afternoon sign-in before leaving"}
 ];
