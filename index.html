@@ -477,7 +477,7 @@ footer .links a:hover{text-decoration:underline}
     <div>
       <span class="caps maroon">7–10 September · Student Lounge and online</span>
       <h2>The Poster Hall</h2>
-      <p>Completed research of the Regular Class 2024–2025 and Batch I3. Open any poster to read it in full; cast your Students' Choice vote from 7 September until noon on 9 September.</p>
+      <p>Completed research of the Regular Class 2024–2025 and Batch I3. Open any poster to read it in full; cast your Students' Choice vote from 7 September until noon on Thursday, 10 September.</p>
     </div>
     <div class="side"><a class="btn primary" id="vote-top" href="#" target="_blank" rel="noopener">Students' Choice ballot</a></div>
   </div>
@@ -513,9 +513,9 @@ footer .links a:hover{text-decoration:underline}
       </div>
     </div>
     <div class="panel">
-      <span class="caps maroon">Voting 7 Sept – 9 Sept, 12:00 noon</span>
+      <span class="caps maroon">Voting 7 Sept – 10 Sept, 12:00 noon</span>
       <h3>Students' Choice</h3>
-      <p>One ballot per student, cast through the QR code beside the posters or the <a href="#poster-hall">Vote</a> button on each poster here. Results are announced with the Faculty's Choice on 10 September.</p>
+      <p>One ballot per student, cast through the QR code beside the posters or the <a href="#poster-hall">Vote</a> button on each poster here, from Monday, 7 September until Thursday, 10 September, 12:00 noon. Results are announced with the Faculty's Choice at 2:00 PM the same day.</p>
       <p>Certificates for all participating groups are confirmed. Clerk group leaders rotating at Region 1 Medical Center are excused 1:00–3:30 PM to attend the awarding.</p>
     </div>
   </div>
@@ -641,8 +641,8 @@ const CONFIG = {
 const DAYS = [
   {d:"2026-09-07", dow:"Mon", n:"7", what:"Poster exhibit opens · ribbon-cutting 9:00 AM", venue:"Student Lounge", room:"poster-hall"},
   {d:"2026-09-08", dow:"Tue", n:"8", what:"Exhibit on display · Students' Choice voting", venue:"Student Lounge", room:"poster-hall"},
-  {d:"2026-09-09", dow:"Wed", n:"9", what:"Lecture series · 8:00 AM – 3:00 PM", venue:"Learning Resource Center", room:"lecture-hall"},
-  {d:"2026-09-10", dow:"Thu", n:"10", what:"Awarding · 2:00 – 2:30 PM", venue:"Smart Classroom, New Medicine Bldg.", room:"awards"},
+  {d:"2026-09-09", dow:"Wed", n:"9", what:"Lecture series · 8:00 AM – 3:00 PM · voting continues", venue:"Learning Resource Center", room:"lecture-hall"},
+  {d:"2026-09-10", dow:"Thu", n:"10", what:"Voting closes 12:00 noon · Awarding 2:00 – 2:30 PM", venue:"Smart Classroom, New Medicine Bldg.", room:"awards"},
   {d:"2026-09-11", dow:"Fri", n:"11", what:"PPH collaboration visit · 8:00 AM – 12:00 noon", venue:"Pangasinan Provincial Hospital", room:"awards"}
 ];
 const MARQUEE = ["Technologia · Ars · Scientia","Annual Research Week 2026","Poster exhibit · Student Lounge","Lecture series · Learning Resource Center","PPH collaboration · San Carlos City","From Manuscript to Community"];
@@ -672,7 +672,7 @@ const WEEK = [
     {t:"All day", item:"Exhibit on display", who:"Students' Choice voting continues", v:"Student Lounge · Poster Hall"}]},
   {title:"Wednesday, 9 September", venue:"Learning Resource Center", rows:LECTURE.map(x=>({t:fmtRange(x.s,x.e), item:x.item, who:x.who||"", v:"LRC · Lecture Hall"}))},
   {title:"Thursday, 10 September", venue:"Smart Classroom, New Medicine Building", rows:[
-    {t:"12:00 noon", item:"Students' Choice voting closed since 9 Sept noon", who:"exhibit remains on display", v:"Student Lounge"},
+    {t:"12:00 noon", item:"Students' Choice voting closes", who:"exhibit remains on display", v:"Student Lounge · Poster Hall"},
     {t:"2:00 – 2:30 PM", item:"Awarding for poster participants", who:"Faculty's Choice and Students' Choice", v:"Smart Classroom"}]},
   {title:"Friday, 11 September", venue:"Pangasinan Provincial Hospital, San Carlos City", rows:[
     {t:"8:00 AM", item:"Assembly of clerk poster presenters and advisers", who:"school vehicle", v:"Medicine Office"},
@@ -810,7 +810,7 @@ function renderStatus(){
   }
   if ((ymd==="2026-09-07" && mins>=toMins("09:00")) || ymd==="2026-09-08"){
     cd.hidden = true; big.textContent = "Poster exhibit on display";
-    sm.textContent = "Student Lounge, and here in the Poster Hall. Students' Choice voting is open until Wednesday, 12:00 noon."; return;
+    sm.textContent = "Student Lounge, and here in the Poster Hall. Students' Choice voting is open until Thursday, 12:00 noon."; return;
   }
   if (ymd==="2026-09-10" && mins>=toMins("14:00") && mins<toMins("14:30")){
     cd.hidden = true; big.textContent = "Awarding in progress"; sm.textContent = "Smart Classroom, New Medicine Building. Faculty's Choice and Students' Choice."; return;
@@ -848,9 +848,9 @@ function voteLink(p){
   if (!CONFIG.voteFormUrl) return null;
   if (!CONFIG.votePrefillParam) return CONFIG.voteFormUrl;
   const sep = CONFIG.voteFormUrl.includes("?") ? "&" : "?";
-  return `${CONFIG.voteFormUrl}${sep}${encodeURIComponent(CONFIG.votePrefillParam)}=${encodeURIComponent("Poster "+p.no+" — "+p.batch+" Group "+p.group)}`;
+  return `${CONFIG.voteFormUrl}${sep}${encodeURIComponent(CONFIG.votePrefillParam)}=${encodeURIComponent("Poster "+p.no+" — "+p.batch+", Group "+p.group+" — "+p.title)}`;
 }
-function votingOpen(){ const {ymd,mins}=now(); if (ymd<"2026-09-07") return "before"; if (ymd>"2026-09-09" || (ymd==="2026-09-09" && mins>=toMins("12:00"))) return "closed"; return "open"; }
+function votingOpen(){ const {ymd,mins}=now(); if (ymd<"2026-09-07") return "before"; if (ymd>"2026-09-10" || (ymd==="2026-09-10" && mins>=toMins("12:00"))) return "closed"; return "open"; }
 
 /* ---------- Poster hall ---------- */
 let batchFilter = "all", query = "", visible = [];
@@ -895,7 +895,7 @@ function openViewer(no){
   const vb = document.getElementById("v-vote"), vn = document.getElementById("v-vote-note");
   const link = voteLink(p), vo = votingOpen();
   if (link && vo==="open"){ vb.href = link; vb.removeAttribute("aria-disabled"); vn.textContent = "Opens the Students' Choice ballot with this poster pre-selected. One vote per student."; }
-  else { vb.href="#"; vb.setAttribute("aria-disabled","true"); vn.textContent = vo==="closed" ? "Voting closed on 9 September at 12:00 noon." : (vo==="before" ? "Voting opens Monday, 7 September." : "Ballot link will be posted before 7 September."); }
+  else { vb.href="#"; vb.setAttribute("aria-disabled","true"); vn.textContent = vo==="closed" ? "Voting closed on 10 September at 12:00 noon." : (vo==="before" ? "Voting opens Monday, 7 September." : "Ballot link will be posted before 7 September."); }
   if (!viewer.open) viewer.showModal();
   history.replaceState(null,"",`#poster-hall/${no}`);
 }
