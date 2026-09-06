@@ -631,8 +631,8 @@ const CONFIG = {
   zoomUrl: "",            // e.g. "https://zoom.us/j/..."
   zoomMeetingId: "",
   zoomPasscode: "",
-  voteFormUrl: "",        // Students' Choice Google Form
-  votePrefillParam: "",   // e.g. "entry.123456789" to pre-fill the poster number
+  voteFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdUqIcN3Bhed_St3yFaqhTgW7Z2Pj16R0DrquV5Se-JOK9yNQ/viewform",  // Students' Choice Google Form (short link: https://forms.gle/BBJkeKa79QYZJeMSA)
+  votePrefillParam: "entry.1598291760",   // Question 3 field id — pre-fills the poster
   attendanceAmUrl: "",
   attendancePmUrl: ""
 };
@@ -841,7 +841,9 @@ function applyConfig(){
   [[am,CONFIG.attendanceAmUrl],[pm,CONFIG.attendancePmUrl]].forEach(([b,u])=>{ if(u){b.href=u;} else {b.setAttribute("aria-disabled","true"); b.addEventListener("click",e=>e.preventDefault());} });
   if (CONFIG.attendanceAmUrl && CONFIG.attendancePmUrl) an.textContent = "Morning sign-in 8:00–9:00 AM · afternoon 12:45–2:05 PM";
   const vt = document.getElementById("vote-top");
-  if (CONFIG.voteFormUrl){ vt.href = CONFIG.voteFormUrl; } else { vt.setAttribute("aria-disabled","true"); vt.textContent = "Voting opens 7 September"; vt.addEventListener("click",e=>e.preventDefault()); }
+  const vo0 = votingOpen();
+  if (CONFIG.voteFormUrl && vo0==="open"){ vt.href = CONFIG.voteFormUrl; }
+  else { vt.setAttribute("aria-disabled","true"); vt.textContent = vo0==="closed" ? "Voting closed 10 September, 12:00 noon" : "Voting opens Monday, 7 September"; vt.addEventListener("click",e=>e.preventDefault()); }
 }
 function voteLink(p){
   if (!CONFIG.voteFormUrl) return null;
