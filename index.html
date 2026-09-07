@@ -633,8 +633,8 @@ const CONFIG = {
   zoomPasscode: "777675",
   voteFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdUqIcN3Bhed_St3yFaqhTgW7Z2Pj16R0DrquV5Se-JOK9yNQ/viewform",  // Students' Choice Google Form (short link: https://forms.gle/BBJkeKa79QYZJeMSA)
   votePrefillParam: "entry.1598291760",   // Question 3 field id — pre-fills the poster
-  attendanceAmUrl: "",
-  attendancePmUrl: ""
+  attendanceAmUrl: "https://forms.gle/zH3MLY1wKKcQixdB6",   // Morning sign-in, 9 Sept 7:45–9:00 AM
+  attendancePmUrl: "https://forms.gle/m6UZKk88Zp8rmGWcA"    // Afternoon sign-in, 9 Sept 12:45–2:05 PM
 };
 
 /* ---------- Data ---------- */
@@ -839,7 +839,7 @@ function applyConfig(){
   } else { zb.setAttribute("aria-disabled","true"); zb.addEventListener("click",e=>e.preventDefault()); }
   const am = document.getElementById("att-am"), pm = document.getElementById("att-pm"), an = document.getElementById("att-note");
   [[am,CONFIG.attendanceAmUrl],[pm,CONFIG.attendancePmUrl]].forEach(([b,u])=>{ if(u){b.href=u;} else {b.setAttribute("aria-disabled","true"); b.addEventListener("click",e=>e.preventDefault());} });
-  if (CONFIG.attendanceAmUrl && CONFIG.attendancePmUrl) an.textContent = "Morning sign-in 8:00–9:00 AM · afternoon 12:45–2:05 PM";
+  if (CONFIG.attendanceAmUrl && CONFIG.attendancePmUrl) an.textContent = "Morning sign-in 7:45–9:00 AM · afternoon 12:45–2:05 PM · use your lyceum.edu.ph account";
   const vt = document.getElementById("vote-top");
   const vo0 = votingOpen();
   if (CONFIG.voteFormUrl && vo0==="open"){ vt.href = CONFIG.voteFormUrl; }
