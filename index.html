@@ -838,8 +838,8 @@ function applyConfig(){
     if (CONFIG.zoomMeetingId || CONFIG.zoomPasscode){ zm.hidden=false; document.getElementById("zoom-id").textContent=CONFIG.zoomMeetingId||"—"; document.getElementById("zoom-pass").textContent=CONFIG.zoomPasscode||"—"; }
   } else { zb.setAttribute("aria-disabled","true"); zb.addEventListener("click",e=>e.preventDefault()); }
   const am = document.getElementById("att-am"), pm = document.getElementById("att-pm"), an = document.getElementById("att-note");
-  [[am,CONFIG.attendanceAmUrl],[pm,CONFIG.attendancePmUrl]].forEach(([b,u])=>{ if(u){b.href=u;} else {b.setAttribute("aria-disabled","true"); b.addEventListener("click",e=>e.preventDefault());} });
-  if (CONFIG.attendanceAmUrl && CONFIG.attendancePmUrl) an.textContent = "Morning sign-in 7:45–9:00 AM · afternoon 12:45–2:05 PM · use your lyceum.edu.ph account";
+  [am,pm].forEach(b=>b.addEventListener("click",e=>{ if(b.getAttribute("aria-disabled")==="true") e.preventDefault(); }));
+  applyAttendance();
   const vt = document.getElementById("vote-top");
   const vo0 = votingOpen();
   if (CONFIG.voteFormUrl && vo0==="open"){ vt.href = CONFIG.voteFormUrl; }
@@ -851,6 +851,13 @@ function voteLink(p){
   const sep = CONFIG.voteFormUrl.includes("?") ? "&" : "?";
   return `${CONFIG.voteFormUrl}${sep}${encodeURIComponent(CONFIG.votePrefillParam)}=${encodeURIComponent("Poster "+p.no+" — "+p.batch+", Group "+p.group+" — "+p.title)}`;
 }
+function applyAttendance(){
+  const am = document.getElementById("att-am"), pm = document.getElementById("att-pm"), an = document.getElementById("att-note");
+  const open = attendanceOpen();
+  [[am,CONFIG.attendanceAmUrl],[pm,CONFIG.attendancePmUrl]].forEach(([b,u])=>{ if(u && open){ b.href=u; b.removeAttribute("aria-disabled"); } else { b.href="#"; b.setAttribute("aria-disabled","true"); } });
+  if (CONFIG.attendanceAmUrl && CONFIG.attendancePmUrl) an.textContent = open ? "Morning sign-in 7:45–9:00 AM · afternoon 12:45–2:05 PM · use your lyceum.edu.ph account" : "Sign-in buttons open Wednesday, 9 September, 4:00 AM";
+}
+function attendanceOpen(){ const {ymd,mins}=now(); return ymd>"2026-09-09" || (ymd==="2026-09-09" && mins>=toMins("04:00")); }
 function votingOpen(){ const {ymd,mins}=now(); if (ymd<"2026-09-07") return "before"; if (ymd>"2026-09-10" || (ymd==="2026-09-10" && mins>=toMins("12:00"))) return "closed"; return "open"; }
 
 /* ---------- Poster hall ---------- */
@@ -927,6 +934,7 @@ window.addEventListener("hashchange",()=>{ route(); const t=document.querySelect
 
 /* ---------- Clock ---------- */
 function tick(){
+  applyAttendance();
   const s = new Intl.DateTimeFormat("en-PH",{timeZone:TZ,weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",hour12:true}).format(new Date());
   document.getElementById("clock").textContent = `Manila · ${s}`;
 }
